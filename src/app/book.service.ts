@@ -16,12 +16,12 @@ export class BookService {
   getAllBooks(criteria): Observable<any> {
 
     // tslint:disable-next-line:max-line-length
-    this.finalSearchCriteria = `/api/books?offset=${criteria.offset}&limit=${criteria.limit}&keyword=${criteria.keyword}&selectionType=${criteria.selectionType}`;
+    this.finalSearchCriteria = `/books?offset=${criteria.offset}&limit=${criteria.limit}&keyword=${criteria.keyword}&selectionType=${criteria.selectionType}`;
     console.log(this.finalSearchCriteria);
     return this.http
       .get(`${environment.api_url}${this.finalSearchCriteria}`)
       .pipe(
-        catchError(this.handleError('getAllGro', []))
+        catchError(this.handleError('getAllBooks', []))
       );
   }
 

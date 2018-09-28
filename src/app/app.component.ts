@@ -1,15 +1,9 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { BookService } from './book.service';
-import { MatSort } from '@angular/material';
-import { MatPaginator } from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
-
-export interface BooksRec {
-  id: number;
-  title: string;
-  author: string;
-  thumbnail: boolean;
-}
+const author: string[];
+const title: string[];
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,7 +21,7 @@ export class AppComponent implements OnInit {
   selectionType = [];
 
   selections = [
-    { viewValue: 'Book Title', value: 'BT' },
+    { viewValue: 'Book Title', value: 'title' },
     { viewValue: 'Author', value: 'A' },
     { viewValue: 'Title and Author', value: 'TA' }
   ];
@@ -43,7 +37,7 @@ export class AppComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private bookSvc: BookService) {
-    // this.dataSource = new MatTableDataSource();
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
@@ -52,14 +46,14 @@ export class AppComponent implements OnInit {
 
     this.bookSvc.getAllBooks(this.searchCriteria).subscribe((results) => {
       console.log(results);
-      this.dataSource = results;
+      this.library = results;
       this.sortedData = this.library.slice();
     });
   }
 
   sortData(sort: Sort) {
     console.log('sorting ...');
-    const data = this.library.slice();
+    const data = this.dataSource.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
       return;
@@ -76,6 +70,7 @@ export class AppComponent implements OnInit {
       switch (sort.active) {
         case 'title': return compare(a.title, b.title, isAsc);
         case 'author': return compare(a.first_name, b.first_name, isAsc);
+        case 'author2': return compare(a.last_name, b.last_name, isAsc);
         case 'title and author': return compare(a.NB, b.NB, isAsc);
         default: return 0;
       }
@@ -97,11 +92,11 @@ export class AppComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  applyFilter(filterValue: value) {
-  this.dataSource.filter = filterValue.trim().toLowerCase();
+  // applyFilter(filterValue: string); {
+  // this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-    this.dataSource.paginator.firstPage();
-    }
-  }
+  //   if (this.library.paginator) {
+  //   this.dataSource.paginator.firstPage();
+  //   }
+  // }
 }

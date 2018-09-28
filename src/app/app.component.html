@@ -1,60 +1,37 @@
-
-<mat-form-field>
-  <mat-select placeholder="selection type" [(ngModel)]="selectionType">
-    <mat-option *ngFor="let select of selections" value="{{select.value}}">
-      {{select.viewValue}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<br>
-<mat-form-field>
-<input matInput [(ngModel)]="keyword" placeholder="keyword" >
-</mat-form-field>
-<br>
-<button mat-raised-button color="primary" (click)="search()">Search</button>
-<div>
-<ul *ngFor="let b of books">
-  <li>{{books.title}}</li>
-</ul>
-
-</div>
-
-<!-- filter -->
-<mat-form-field>
-  <input type="text" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
-
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort>
-
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-    </ng-container>
-
-    <!-- title Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
-      <td mat-cell *matCellDef="let row"> {{row.title}} </td>
-    </ng-container>
-    
-    <!-- Author Column -->
-    <ng-container matColumnDef="author">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Author </th>
-      <td mat-cell *matCellDef="let row"> {{row.author}}</td>
-    </ng-container>
-
-    <!--thumbnail Column -->
-    <ng-container matColumnDef="thumbnail">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Thumbnail</th>
-      <td mat-cell *matCellDef="let row" > {{row.thumbnail.image}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-    </tr>
-  </table>
-
-  <mat-paginator [pageSizeOptions]="[5,10,20]"></mat-paginator>
-</div>
+  <div fxLayout="column" fxLayoutAlign="start right" fxLayoutGap="60px">
+      <div>
+      <mat-form-field>
+          <mat-select placeholder="selection type" [(ngModel)]="selectionType">
+            <mat-option *ngFor="let select of selections" value="{{select.value}}">
+              {{select.viewValue}}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput [(ngModel)]="keyword" placeholder="keyword" >
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" (click)="search()">Search</button>
+      </div>
+      
+      <div>
+        <table matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+         
+          <tr>
+            <th mat-sort-header="id">Id </th>
+            <th mat-sort-header="thumbnail">Thumbnail</th>
+            <th mat-sort-header="title">Title</th>
+            <th mat-sort-header="author">Author</th>
+          </tr>
+          <tr *ngFor="let element of sortedData">
+            <td>{{element.id}}</td>
+            <td>{{element.thumbnail}}</td>
+            <td>{{element.title}}</td>
+            <td>{{element.author}}</td>
+          </tr>
+          
+        </table>
+        
+      </div>
+      </div>

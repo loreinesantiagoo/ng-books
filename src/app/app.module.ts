@@ -6,12 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EditPageComponent } from './components/edit-page/edit-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EditPageComponent
   ],
   imports: [
     BrowserModule,
